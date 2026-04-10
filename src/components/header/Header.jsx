@@ -47,11 +47,11 @@ const ProfileIcon = () => (
 
 /* ── Links de navegação ─────────────────────────────────── */
 const NAV_LINKS = [
-  { label: "Home",     href: "#home"     },   /* ← link Home adicionado */
-  { label: "Sobre",    href: "#sobre"    },
-  { label: "Projetos", href: "#projetos" },
-  { label: "Stack",    href: "#stack"    },
-  { label: "Contato",  href: "#contato"  },
+  { label: "Home",      href: "#home"     },
+  { label: "Sobre",     href: "#sobre"    },
+  { label: "Serviços",  href: "#servicos" },
+  { label: "Projetos",  href: "#projetos" },
+  { label: "Contato",   href: "#contato"  },
 ];
 
 /* ─────────────────────────────────────────────────────────

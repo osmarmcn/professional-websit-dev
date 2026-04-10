@@ -91,10 +91,10 @@ function HeroSection({ isDark }) {
       </ContentLayer>
 
       {/* Indicador de scroll */}
-      <ScrollHint aria-hidden="true">
+      {/* <ScrollHint aria-hidden="true">
         <span>scroll</span>
         <div className="line" />
-      </ScrollHint>
+      </ScrollHint> */}
     </HeroWrapper>
   );
 }
