@@ -7,6 +7,7 @@ import HeroSection       from "./components/hero/HeroSection";
 import AboutSection      from "./components/about/AboutSection";
 import ServicesSection   from "./components/services/ServicesSection";
 import ProjectsSection   from "./components/projects/ProjectsSection";
+import ContactSection    from "./components/contact/ContactSection";
 
 function App() {
   const [isDark,    setIsDark]    = useState(false);
@@ -29,7 +30,7 @@ function App() {
         <AboutSection    />
         <ServicesSection />
         <ProjectsSection />
-        {/* <ContactSection /> */}
+        <ContactSection  />
       </main>
     </>
   );
