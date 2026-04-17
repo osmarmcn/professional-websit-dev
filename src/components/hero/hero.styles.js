@@ -1,68 +1,7 @@
 import styled, { css } from "styled-components";
 import { fadeUp, shimmer, pulseGlow, floatCard } from "../../styles/keyframes";
 
-/* ─────────────────────────────────────────────────────────
-   HERO STYLES
-   Todos os styled-components usados em HeroSection.jsx
-   e em TechCard.jsx. Organizado por responsabilidade:
-
-   1. Layout principal (wrapper, layers)
-   2. Tipografia (tagline, heading, subheading)
-   3. Botões
-   4. Cards de tecnologia (flip 3D)
-   5. Utilitários (noise, scroll hint)
-───────────────────────────────────────────────────────── */
-
-/* ── 1. Layout ─────────────────────────────────────────── */
-
-export const HeroWrapper = styled.section`
-  position: relative;
-  min-height: 100vh;
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  overflow: hidden;
-  background: var(--bg);
-`;
-
-export const CanvasLayer = styled.canvas`
-  position: absolute;
-  inset: 0;
-  width: 100%;
-  height: 100%;
-  pointer-events: none;
-  opacity: var(--canvas-opacity);
-  z-index: 0;
-`;
-
-export const CardsLayer = styled.div`
-  position: absolute;
-  inset: 0;
-  z-index: 1;
-  pointer-events: none;
-
-  & > * {
-    pointer-events: all;
-  }
-`;
-
-export const ContentLayer = styled.div`
-  position: relative;
-  z-index: 2;
-  display: flex;
-  flex-direction: column;
-  align-items: flex-start;
-  max-width: 760px;
-  padding: 0 6vw;
-
-  @media (max-width: 600px) {
-    align-items: center;
-    text-align: center;
-    padding: 0 5vw;
-  }
-`;
-
-/* ── 2. Tipografia ──────────────────────────────────────── */
+/* ── 1. Tipografia (Definir primeiro para evitar erros de referência) ── */
 
 export const TagLine = styled.span`
   font-family: 'Roboto', sans-serif;
@@ -78,11 +17,12 @@ export const TagLine = styled.span`
 export const Heading = styled.h1`
   font-family: 'Poppins', sans-serif;
   font-weight: 800;
-  font-size: clamp(2.8rem, 7vw, 6rem);
-  line-height: 1.0;
+  font-size: clamp(2.2rem, 5vw, 4.2rem); 
+  line-height: 1.1;
   color: var(--text-primary);
   opacity: 0;
   animation: ${fadeUp} 0.8s ease both 0.25s;
+  max-width: 850px; 
 
   em {
     font-style: normal;
@@ -112,7 +52,7 @@ export const SubHeading = styled.p`
   animation: ${fadeUp} 0.8s ease both 0.40s;
 `;
 
-/* ── 3. Botões ──────────────────────────────────────────── */
+/* ── 2. Botões ──────────────────────────────────────────── */
 
 export const ButtonGroup = styled.div`
   display: flex;
@@ -121,6 +61,10 @@ export const ButtonGroup = styled.div`
   flex-wrap: wrap;
   opacity: 0;
   animation: ${fadeUp} 0.8s ease both 0.55s;
+
+  @media (max-width: 600px) {
+    justify-content: center;
+  }
 `;
 
 const buttonBase = css`
@@ -134,11 +78,7 @@ const buttonBase = css`
   display: inline-flex;
   align-items: center;
   gap: 0.5rem;
-  transition:
-    transform    0.2s ease,
-    box-shadow   0.2s ease,
-    background   0.2s ease,
-    border-color 0.2s ease;
+  transition: transform 0.2s ease, box-shadow 0.2s ease, background 0.2s ease, border-color 0.2s ease;
 
   &:hover  { transform: translateY(-2px); }
   &:active { transform: translateY(0); }
@@ -146,30 +86,101 @@ const buttonBase = css`
 
 export const BtnPrimary = styled.button`
   ${buttonBase}
-  background:   var(--btn-primary-bg);
-  color:        var(--btn-primary-text);
+  background: var(--btn-primary-bg);
+  color: var(--btn-primary-text);
   border: 2px solid var(--btn-primary-bg);
 
   &:hover {
-    animation: ${pulseGlow} 1.5s ease infinite;
-    background:   var(--accent2);
-    border-color: var(--accent2);
+    background: var(--btn-primary-bg);
+    border-color: var(--accent);
+    box-shadow: 0 0 20px rgba(171, 64, 10, 0.4); /* Brilho na cor do seu accent */
+    transform: translateY(-3px);
   }
 `;
 
 export const BtnSecondary = styled.button`
   ${buttonBase}
   background: var(--btn-secondary-bg);
-  color:      var(--btn-secondary-text);
+  color: var(--btn-secondary-text);
   border: 2px solid var(--btn-secondary-border);
 
   &:hover {
     background: var(--btn-secondary-border);
-    color:      var(--bg);
+    color: var(--bg);
   }
 `;
 
-/* ── 4. Cards de tecnologia (flip 3D) ───────────────────── */
+/* ── 3. Layout Principal ────────────────────────────────── */
+
+export const HeroWrapper = styled.section`
+  position: relative;
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  overflow: hidden;
+  background: var(--bg);
+`;
+
+export const DesktopContainer = styled.div`
+  display: block;
+  width: 100%;
+  height: 100%;
+
+  @media (max-width: 1024px) {
+    display: none;
+  }
+`;
+
+export const MobileContainer = styled.div`
+  display: none;
+  width: 100%;
+  min-height: 100vh;
+
+  @media (max-width: 1024px) {
+    display: flex;
+    flex-direction: column;
+  }
+`;
+
+export const CanvasLayer = styled.canvas`
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  pointer-events: none;
+  opacity: var(--canvas-opacity);
+  z-index: 0;
+`;
+
+export const ContentLayer = styled.div`
+  position: relative;
+  z-index: 2;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  max-width: 760px;
+  padding: 0 6vw;
+
+  @media (max-width: 600px) {
+    align-items: center;
+    text-align: center;
+    padding: 0 5vw;
+  }
+`;
+
+/* ── 4. Cards (Desktop Only) ───────────────────────────── */
+
+export const CardsLayer = styled.div`
+  position: absolute;
+  inset: 0;
+  z-index: 1;
+  pointer-events: none;
+
+  & > * {
+    pointer-events: all;
+  }
+`;
 
 export const CardOuter = styled.div`
   position: absolute;
@@ -178,8 +189,8 @@ export const CardOuter = styled.div`
   perspective: 600px;
   cursor: pointer;
   animation: ${floatCard} linear infinite;
-  animation-duration: ${({ $dur })   => $dur   || "6s"};
-  animation-delay:    ${({ $delay }) => $delay || "0s"};
+  animation-duration: ${({ $dur }) => $dur || "6s"};
+  animation-delay: ${({ $delay }) => $delay || "0s"};
 
   &:hover .card-inner {
     transform: rotateY(180deg);
@@ -195,7 +206,6 @@ export const CardInner = styled.div`
   border-radius: 14px;
 `;
 
-/* Base compartilhada entre frente e verso */
 const CardFace = styled.div`
   position: absolute;
   inset: 0;
@@ -257,7 +267,7 @@ export const CardBack = styled(CardFace)`
   }
 `;
 
-/* ── 5. Utilitários ─────────────────────────────────────── */
+/* ── 5. Utilitários & Overlays ────────────────────────── */
 
 export const NoiseOverlay = styled.div`
   position: absolute;
@@ -294,5 +304,49 @@ export const ScrollHint = styled.div`
     letter-spacing: 0.18em;
     text-transform: uppercase;
     color: var(--text-muted);
+  }
+`;
+
+/* ── 6. Mobile Components (Declarados por último para usar referências acima) ── */
+
+export const MobileHeroWrapper = styled.div`
+  height: 100vh;
+  width: 100%;
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+  background: var(--bg);
+`;
+
+export const MobileContent = styled.div`
+  position: relative;
+  z-index: 10;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  padding: 0 20px;
+  gap: 1rem;
+  width: 100%;
+
+  ${Heading} {
+    font-size: clamp(1.8rem, 8vw, 2.4rem); /* Texto menor e mais elegante no mobile */
+    line-height: 1.2;
+    margin-bottom: 0.5rem;
+  }
+
+  ${SubHeading} {
+    font-size: 0.9rem;
+    line-height: 1.6;
+    max-width: 300px;
+    margin-top: 0.5rem;
+  }
+
+
+  ${ButtonGroup} {
+    opacity: 1;
+    animation: ${fadeUp} 0.8s ease both 0.4s;
   }
 `;

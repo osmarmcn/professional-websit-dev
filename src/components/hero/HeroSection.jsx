@@ -1,101 +1,76 @@
 import React, { useCallback, useRef } from "react";
-
-import {
-  HeroWrapper,
-  CanvasLayer,
-  CardsLayer,
-  ContentLayer,
-  TagLine,
-  Heading,
-  SubHeading,
-  ButtonGroup,
-  BtnPrimary,
-  BtnSecondary,
-  NoiseOverlay,
-  ScrollHint,
-} from "./hero.styles";
-
-import TechCard                        from "./TechCard";
-import { useThreeBackground }          from "./useThreeBackground";
+import * as S from "./hero.styles";
+import TechCard from "./TechCard";
+import HeroMobile from "./HeroMobile"; 
+import { useThreeBackground } from "./useThreeBackground";
 import { TECH_CARDS, CARD_POSITIONS, FLOAT_PARAMS } from "./heroData";
 
-/* ─────────────────────────────────────────────────────────
-   HeroSection
-   Seção principal do portfólio. Recebe `isDark` do App
-   para sincronizar o Three.js com o tema atual.
-
-   Props:
-     isDark → boolean (controlado pelo Header/App)
-───────────────────────────────────────────────────────── */
 function HeroSection({ isDark }) {
   const canvasRef = useRef(null);
-
-  /* inicializa o canvas Three.js */
   useThreeBackground(canvasRef, isDark);
 
-  const handleProjects = useCallback(() => {
-    /* substituir por navigate('/projects') ou scroll */
-    console.log("→ Projetos");
-  }, []);
-
-  const handleContact = useCallback(() => {
-    /* substituir por navigate('/contact') ou scroll */
-    console.log("→ Contato");
+  // FUNÇÃO DE SCROLL SUAVE
+  const scrollToSection = useCallback((id) => {
+    const element = document.getElementById(id);
+    if (element) {
+      element.scrollIntoView({ behavior: "smooth" });
+    }
   }, []);
 
   return (
-    <HeroWrapper>
-      {/* Textura de ruído sutil sobre o fundo */}
-      <NoiseOverlay aria-hidden="true" />
+    <S.HeroWrapper id="home">
+      <S.NoiseOverlay aria-hidden="true" />
 
-      {/* Canvas Three.js com partículas e linhas */}
-      <CanvasLayer ref={canvasRef} aria-hidden="true" />
+      {/* --- DESKTOP --- */}
+      <S.DesktopContainer>
+        <S.CanvasLayer ref={canvasRef} />
+        <S.CardsLayer>
+          {TECH_CARDS.map((card, i) => (
+            <TechCard 
+              key={card.id} 
+              card={card} 
+              pos={CARD_POSITIONS[i]} 
+              floatDur={FLOAT_PARAMS[i].dur} 
+              floatDelay={FLOAT_PARAMS[i].delay} 
+            />
+          ))}
+        </S.CardsLayer>
 
-      {/* Cards de tecnologia flutuantes */}
-      <CardsLayer aria-hidden="true">
-        {TECH_CARDS.map((card, i) => (
-          <TechCard
-            key={card.id}
-            card={card}
-            pos={CARD_POSITIONS[i]}
-            floatDur={FLOAT_PARAMS[i].dur}
-            floatDelay={FLOAT_PARAMS[i].delay}
-          />
-        ))}
-      </CardsLayer>
+        <S.ContentLayer>
+          <S.TagLine>Desenvolvedor Full Stack &amp; Designer</S.TagLine>
+          <S.Heading>
+            Construo<br />
+            experiências <em>digitais</em><br />
+            que importam.
+          </S.Heading>
+          <S.SubHeading>
+            Interfaces rápidas, acessíveis e escaláveis. 
+            Apaixonado por código limpo e design intencional.
+          </S.SubHeading>
+          
+          <S.ButtonGroup>
+            {/* LINK PARA PROJETOS */}
+            <S.BtnPrimary onClick={() => scrollToSection("projetos")}>
+              Ver Projetos →
+            </S.BtnPrimary>
+            
+            {/* LINK PARA CONTATO */}
+            <S.BtnSecondary onClick={() => scrollToSection("contato")}>
+              Entrar em contato
+            </S.BtnSecondary>
+          </S.ButtonGroup>
+        </S.ContentLayer>
+      </S.DesktopContainer>
 
-      {/* Conteúdo textual principal */}
-      <ContentLayer>
-        <TagLine>Desenvolvedor Full Stack &amp; Designer</TagLine>
+      {/* --- MOBILE --- */}
+      <S.MobileContainer>
+        <HeroMobile 
+          handleProjects={() => scrollToSection("projetos")} 
+          handleContact={() => scrollToSection("contato")} 
+        />
+      </S.MobileContainer>
 
-        <Heading>
-          Construo<br />
-          experiências <em>digitais</em><br />
-          que importam.
-        </Heading>
-
-        <SubHeading>
-          Da arquitetura ao pixel — desenvolvo interfaces rápidas,
-          acessíveis e escaláveis. Apaixonado por código limpo,
-          design intencional e tecnologia que transforma.
-        </SubHeading>
-
-        <ButtonGroup>
-          <BtnPrimary onClick={handleProjects}>
-            Ver Projetos →
-          </BtnPrimary>
-          <BtnSecondary onClick={handleContact}>
-            Entrar em contato
-          </BtnSecondary>
-        </ButtonGroup>
-      </ContentLayer>
-
-      {/* Indicador de scroll */}
-      {/* <ScrollHint aria-hidden="true">
-        <span>scroll</span>
-        <div className="line" />
-      </ScrollHint> */}
-    </HeroWrapper>
+    </S.HeroWrapper>
   );
 }
 

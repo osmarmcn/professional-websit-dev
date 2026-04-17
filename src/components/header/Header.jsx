@@ -54,12 +54,6 @@ const NAV_LINKS = [
   { label: "Contato",   href: "#contato"  },
 ];
 
-/* ─────────────────────────────────────────────────────────
-   Header
-   Props:
-     isDark   → boolean — tema atual
-     onToggle → () => void — alterna tema
-───────────────────────────────────────────────────────── */
 function Header({ isDark, onToggle }) {
   const [menuOpen,  setMenuOpen]  = useState(false);
   const [loginOpen, setLoginOpen] = useState(false);
